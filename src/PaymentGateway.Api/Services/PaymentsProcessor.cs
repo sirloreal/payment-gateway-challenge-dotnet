@@ -7,7 +7,7 @@ namespace PaymentGateway.Api.Services
 {
     public interface IPaymentsProcessor
     {
-        Task<PostPaymentResponse> ProcessPaymentAsync(PostPaymentRequest request);
+        Task<PaymentResponse> ProcessPaymentAsync(PostPaymentRequest request);
     }
     public class PaymentsProcessor : IPaymentsProcessor
     {
@@ -19,7 +19,7 @@ namespace PaymentGateway.Api.Services
             _httpClient = httpClient;
         }
 
-        public async Task<PostPaymentResponse> ProcessPaymentAsync(PostPaymentRequest request)
+        public async Task<PaymentResponse> ProcessPaymentAsync(PostPaymentRequest request)
         {
             var bankPaymentRequest = new BankPaymentRequest()
             {
@@ -38,7 +38,7 @@ namespace PaymentGateway.Api.Services
 
             var bankPaymentResponse = await result.Content.ReadFromJsonAsync<BankPaymentResponse>();
 
-            var paymentResponse = new PostPaymentResponse
+            var paymentResponse = new PaymentResponse
             {
                 Id = Guid.NewGuid(),
                 ExpiryYear = request.ExpiryYear,

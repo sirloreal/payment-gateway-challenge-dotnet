@@ -138,7 +138,7 @@ namespace PaymentGateway.Api.Tests
             var response = await _paymentsProcessor.ProcessPaymentAsync(request);
 
             // Assert
-            _paymentsRepositoryMock.Received(1).Add(Arg.Is<PostPaymentResponse>(p =>
+            _paymentsRepositoryMock.Received(1).Add(Arg.Is<PaymentResponse>(p =>
                 p.CardNumberLastFour == int.Parse(request.CardNumber.Substring(request.CardNumber.Length - 4)) &&
                 p.ExpiryMonth == request.ExpiryMonth &&
                 p.ExpiryYear == request.ExpiryYear &&

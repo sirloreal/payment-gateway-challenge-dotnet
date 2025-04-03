@@ -25,14 +25,14 @@ public class PaymentsController : Controller
     }
 
     [HttpGet("{id:guid}")]
-    public async Task<ActionResult<PostPaymentResponse?>> GetPaymentAsync(Guid id)
+    public async Task<ActionResult<PaymentResponse?>> GetPaymentAsync(Guid id)
     {
         var payment = _paymentsRepository.Get(id);
         return payment != null ? new OkObjectResult(payment) : new NotFoundResult();
     }
 
     [HttpPost]
-    public async Task<ActionResult<PostPaymentResponse?>> PostPaymentAsync([FromBody] PostPaymentRequest request)
+    public async Task<ActionResult<PaymentResponse?>> PostPaymentAsync([FromBody] PostPaymentRequest request)
     {
         var validationResult = await _validator.ValidateAsync(request);
         if(!validationResult.IsValid)
