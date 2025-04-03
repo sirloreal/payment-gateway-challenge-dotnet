@@ -1,4 +1,5 @@
-﻿using PaymentGateway.Api.Models;
+﻿using PaymentGateway.Api.Exceptions;
+using PaymentGateway.Api.Models;
 using PaymentGateway.Api.Models.Banking;
 using PaymentGateway.Api.Models.Requests;
 using PaymentGateway.Api.Models.Responses;
@@ -33,7 +34,7 @@ namespace PaymentGateway.Api.Services
             var result = await _httpClient.PostAsJsonAsync("payments", bankPaymentRequest);
             if (!result.IsSuccessStatusCode)
             {
-                throw new Exception("Payment failed");
+                throw new PaymentGatewayException("Payment failed");
             }
 
             var bankPaymentResponse = await result.Content.ReadFromJsonAsync<BankPaymentResponse>();

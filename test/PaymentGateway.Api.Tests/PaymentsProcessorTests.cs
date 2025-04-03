@@ -4,6 +4,8 @@ using PaymentGateway.Api.Services;
 using NSubstitute;
 using PaymentGateway.Api.Models.Responses;
 using System.Net.Http.Json;
+using System.Net;
+using PaymentGateway.Api.Exceptions;
 
 namespace PaymentGateway.Api.Tests
 {
@@ -19,8 +21,8 @@ namespace PaymentGateway.Api.Tests
             _paymentsRepositoryMock = Substitute.For<IPaymentsRepository>();
             _httpMessageHandlerMock = Substitute.ForPartsOf<MockHttpMessageHandler>();
             _httpClientMock = new HttpClient(_httpMessageHandlerMock)
-            { 
-                BaseAddress = new Uri("http://fakehost:8080") 
+            {
+                BaseAddress = new Uri("http://fakehost:8080")
             };
             _paymentsProcessor = new PaymentsProcessor(_paymentsRepositoryMock, _httpClientMock);
         }
@@ -147,7 +149,27 @@ namespace PaymentGateway.Api.Tests
                 p.Status == PaymentStatus.Authorized
             ));
         }
+
+        [Fact]
+        public async Task ProcessPaymentAsync_ShouldThrowException_WhenHttpRequestFails()
+        {
+            // Arrange
+            var request = new PostPaymentRequest
+            {
+                CardNumber = "1234567890123456",
+                ExpiryMonth = 12,
+                ExpiryYear = DateTime.Now.Year + 1,
+                Currency = "USD",
+                Amount = 100,
+                Cvv = 123
+            };
+            _httpMessageHandlerMock.MockSend(Arg.Any<HttpRequestMessage>(), Arg.Any<CancellationToken>())
+                .Returns(new HttpResponseMessage(HttpStatusCode.ServiceUnavailable));
+            // Act & Assert
+            await Assert.ThrowsAsync<PaymentGatewayException>(() => _paymentsProcessor.ProcessPaymentAsync(request));
+        }
     }
+
 
     public class MockHttpMessageHandler : HttpMessageHandler
     {
