@@ -33,7 +33,8 @@ public class PaymentsControllerTests
         var webApplicationFactory = new WebApplicationFactory<PaymentsController>();
         var client = webApplicationFactory.WithWebHostBuilder(builder =>
             builder.ConfigureServices(services => ((ServiceCollection)services)
-                .AddSingleton<IPaymentsRepository>(paymentsRepository)))
+                .AddSingleton<IPaymentsRepository>(paymentsRepository)
+                .AddScoped<IPaymentsReadService, PaymentsReadService>()))
             .CreateClient();
 
         // Act
@@ -53,7 +54,8 @@ public class PaymentsControllerTests
         var webApplicationFactory = new WebApplicationFactory<PaymentsController>();
         var client = webApplicationFactory.WithWebHostBuilder(builder =>
             builder.ConfigureServices(services => ((ServiceCollection)services)
-                .AddSingleton<IPaymentsRepository>(paymentsRepository)))
+                .AddSingleton<IPaymentsRepository>(paymentsRepository)
+                .AddScoped<IPaymentsReadService, PaymentsReadService>()))
             .CreateClient();
 
         // Act

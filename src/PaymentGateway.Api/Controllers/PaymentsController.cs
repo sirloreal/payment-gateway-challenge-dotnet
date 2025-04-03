@@ -14,20 +14,23 @@ namespace PaymentGateway.Api.Controllers;
 public class PaymentsController : Controller
 {
     private readonly IValidator<PostPaymentRequest> _validator;
+    private readonly IPaymentsReadService _paymentsReadService;
     private readonly IPaymentsProcessor _paymentsProcessor;
-    private readonly IPaymentsRepository _paymentsRepository;
 
-    public PaymentsController(IValidator<PostPaymentRequest> validator, IPaymentsProcessor paymentsProcessor, IPaymentsRepository paymentsRepository)
+    public PaymentsController(
+        IValidator<PostPaymentRequest> validator,
+        IPaymentsReadService paymentsReadService,
+        IPaymentsProcessor paymentsProcessor)
     {
         _validator = validator;
+        _paymentsReadService = paymentsReadService;
         _paymentsProcessor = paymentsProcessor;
-        _paymentsRepository = paymentsRepository;
     }
 
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<PaymentResponse?>> GetPaymentAsync(Guid id)
     {
-        var payment = _paymentsRepository.Get(id);
+        var payment = _paymentsReadService.GetPayment(id);
         return payment != null ? new OkObjectResult(payment) : new NotFoundResult();
     }
 

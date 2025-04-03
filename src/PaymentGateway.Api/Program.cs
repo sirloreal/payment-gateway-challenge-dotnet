@@ -21,6 +21,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<IPaymentsRepository, PaymentsRepository>();
 builder.Services.AddScoped<IPaymentsProcessor, PaymentsProcessor>();
+builder.Services.AddScoped<IPaymentsReadService, PaymentsReadService>();
 builder.Services.AddHttpClient<IPaymentsProcessor, PaymentsProcessor>(client =>
 {
     client.BaseAddress = new Uri("http://localhost:8080");
