@@ -18,15 +18,6 @@ namespace PaymentGateway.Api.Validators
                 .Matches(@"^\d+$")
                 .WithMessage("Card number must contain only digits");
 
-            RuleFor(x => x.CardNumberLastFour)
-                .NotEmpty()
-                .WithMessage("Card number is required")
-                .Must(cardNumber => cardNumber.ToString().Length == 4)
-                .WithMessage("Card number last four digits must be 4 characters long");
-            //TODO: This requires a change to the data type
-            //.Must(cardNumber => cardNumber.ToString().Length >= 14 && cardNumber.ToString().Length <= 19)
-            //.WithMessage("Card number must be between 14 and 19 digits long");
-
             RuleFor(x => x.ExpiryMonth)
                 .NotEmpty()
                 .WithMessage("Expiry month is required")

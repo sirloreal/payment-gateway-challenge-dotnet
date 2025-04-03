@@ -25,7 +25,6 @@ namespace PaymentGateway.Api.Tests
             var request = new PostPaymentRequest
             {
                 CardNumber = "1234567890123456",
-                CardNumberLastFour = 1234,
                 ExpiryMonth = DateTime.Now.Month,
                 ExpiryYear = DateTime.Now.Year,
                 Amount = 100,
@@ -48,7 +47,6 @@ namespace PaymentGateway.Api.Tests
             var request = new PostPaymentRequest
             {
                 CardNumber = cardNumber,
-                CardNumberLastFour = 1234,
                 ExpiryMonth = DateTime.Now.Month,
                 ExpiryYear = DateTime.Now.Year,
                 Amount = 100,
@@ -69,7 +67,6 @@ namespace PaymentGateway.Api.Tests
             var request = new PostPaymentRequest
             {
                 CardNumber = "1234567890123456",
-                CardNumberLastFour = 1234,
                 ExpiryMonth = 13, // Invalid month
                 ExpiryYear = DateTime.Now.Year,
                 Amount = 100,
@@ -90,7 +87,6 @@ namespace PaymentGateway.Api.Tests
             var request = new PostPaymentRequest
             {
                 CardNumber = "1234567890123456",
-                CardNumberLastFour = 1234,
                 ExpiryMonth = DateTime.Now.Month,
                 ExpiryYear = 2020, // Invalid year
                 Amount = 100,
@@ -111,7 +107,6 @@ namespace PaymentGateway.Api.Tests
             var request = new PostPaymentRequest
             {
                 CardNumber = "1234567890123456",
-                CardNumberLastFour = 1234,
                 ExpiryMonth = DateTime.Now.Month,
                 ExpiryYear = DateTime.Now.Year,
                 Amount = -100, // Invalid amount
@@ -132,7 +127,6 @@ namespace PaymentGateway.Api.Tests
             var request = new PostPaymentRequest
             {
                 CardNumber = "1234567890123456",
-                CardNumberLastFour = 1234,
                 ExpiryMonth = DateTime.Now.Month,
                 ExpiryYear = DateTime.Now.Year,
                 Amount = 100,
@@ -153,7 +147,6 @@ namespace PaymentGateway.Api.Tests
             var request = new PostPaymentRequest
             {
                 CardNumber = "1234567890123456",
-                CardNumberLastFour = 1234,
                 ExpiryMonth = DateTime.Now.Month,
                 ExpiryYear = DateTime.Now.Year,
                 Amount = 100,
@@ -174,7 +167,6 @@ namespace PaymentGateway.Api.Tests
             var request = new PostPaymentRequest
             {
                 CardNumber = "1234567890123456",
-                CardNumberLastFour = 1234,
                 ExpiryMonth = DateTime.Now.Month,
                 ExpiryYear = DateTime.Now.AddYears(-1).Year, // Expired a year ago
                 Amount = 100,
@@ -195,7 +187,6 @@ namespace PaymentGateway.Api.Tests
             var request = new PostPaymentRequest
             {
                 CardNumber = "1234567890123456",
-                CardNumberLastFour = 1234,
                 ExpiryMonth = DateTime.Now.AddMonths(-1).Month, // Expired a month ago
                 ExpiryYear = DateTime.Now.Year,
                 Amount = 100,
