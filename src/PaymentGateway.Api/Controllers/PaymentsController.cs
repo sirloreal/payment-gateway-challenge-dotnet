@@ -2,6 +2,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 
+using PaymentGateway.Api.Models;
 using PaymentGateway.Api.Models.Requests;
 using PaymentGateway.Api.Models.Responses;
 using PaymentGateway.Api.Services;
@@ -37,7 +38,12 @@ public class PaymentsController : Controller
         var validationResult = await _validator.ValidateAsync(request);
         if(!validationResult.IsValid)
         {
-            return BadRequest(validationResult.Errors);
+            var errorResponse = new ValidationErrorResponse
+            {
+                Status = PaymentStatus.Rejected,
+                Errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList()
+            };
+            return BadRequest(errorResponse);
         }
 
         var response = await _paymentsProcessor.ProcessPaymentAsync(request);
