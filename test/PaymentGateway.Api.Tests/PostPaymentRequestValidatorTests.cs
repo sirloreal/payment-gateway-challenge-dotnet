@@ -24,6 +24,7 @@ namespace PaymentGateway.Api.Tests
             // Arrange
             var request = new PostPaymentRequest
             {
+                CardNumber = "1234567890123456",
                 CardNumberLastFour = 1234,
                 ExpiryMonth = DateTime.Now.Month,
                 ExpiryYear = DateTime.Now.Year,
@@ -37,13 +38,17 @@ namespace PaymentGateway.Api.Tests
             Assert.True(result.IsValid);
         }
 
-        [Fact]
-        public void Should_Validate_WithError_InvalidCardNumberLastFour()
+        [Theory]
+        [InlineData("123456789012")] // Card number too short
+        [InlineData("12345678901234567890")] // Card number too long
+        [InlineData("123456789012345a")] // Card number with invalid character
+        public void Should_Validate_WithError_InvalidCardNumber(string cardNumber)
         {
             // Arrange
             var request = new PostPaymentRequest
             {
-                CardNumberLastFour = 123, // Invalid card number
+                CardNumber = cardNumber,
+                CardNumberLastFour = 1234,
                 ExpiryMonth = DateTime.Now.Month,
                 ExpiryYear = DateTime.Now.Year,
                 Amount = 100,
@@ -63,6 +68,7 @@ namespace PaymentGateway.Api.Tests
             // Arrange
             var request = new PostPaymentRequest
             {
+                CardNumber = "1234567890123456",
                 CardNumberLastFour = 1234,
                 ExpiryMonth = 13, // Invalid month
                 ExpiryYear = DateTime.Now.Year,
@@ -83,6 +89,7 @@ namespace PaymentGateway.Api.Tests
             // Arrange
             var request = new PostPaymentRequest
             {
+                CardNumber = "1234567890123456",
                 CardNumberLastFour = 1234,
                 ExpiryMonth = DateTime.Now.Month,
                 ExpiryYear = 2020, // Invalid year
@@ -103,6 +110,7 @@ namespace PaymentGateway.Api.Tests
             // Arrange
             var request = new PostPaymentRequest
             {
+                CardNumber = "1234567890123456",
                 CardNumberLastFour = 1234,
                 ExpiryMonth = DateTime.Now.Month,
                 ExpiryYear = DateTime.Now.Year,
@@ -123,6 +131,7 @@ namespace PaymentGateway.Api.Tests
             // Arrange
             var request = new PostPaymentRequest
             {
+                CardNumber = "1234567890123456",
                 CardNumberLastFour = 1234,
                 ExpiryMonth = DateTime.Now.Month,
                 ExpiryYear = DateTime.Now.Year,
@@ -143,6 +152,7 @@ namespace PaymentGateway.Api.Tests
             // Arrange
             var request = new PostPaymentRequest
             {
+                CardNumber = "1234567890123456",
                 CardNumberLastFour = 1234,
                 ExpiryMonth = DateTime.Now.Month,
                 ExpiryYear = DateTime.Now.Year,
@@ -163,6 +173,7 @@ namespace PaymentGateway.Api.Tests
             // Arrange
             var request = new PostPaymentRequest
             {
+                CardNumber = "1234567890123456",
                 CardNumberLastFour = 1234,
                 ExpiryMonth = DateTime.Now.Month,
                 ExpiryYear = DateTime.Now.AddYears(-1).Year, // Expired a year ago
@@ -183,6 +194,7 @@ namespace PaymentGateway.Api.Tests
             // Arrange
             var request = new PostPaymentRequest
             {
+                CardNumber = "1234567890123456",
                 CardNumberLastFour = 1234,
                 ExpiryMonth = DateTime.Now.AddMonths(-1).Month, // Expired a month ago
                 ExpiryYear = DateTime.Now.Year,

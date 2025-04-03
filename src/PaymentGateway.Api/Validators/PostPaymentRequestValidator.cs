@@ -10,6 +10,14 @@ namespace PaymentGateway.Api.Validators
             // Stop validation on the first failure.  
             this.ClassLevelCascadeMode = CascadeMode.Stop;
 
+            RuleFor(x => x.CardNumber)
+                .NotEmpty()
+                .WithMessage("Card number is required")
+                .Must(cardNumber => cardNumber.ToString().Length >= 14 && cardNumber.ToString().Length <= 19)
+                .WithMessage("Card number must be between 14 and 19 digits long")
+                .Matches(@"^\d+$")
+                .WithMessage("Card number must contain only digits");
+
             RuleFor(x => x.CardNumberLastFour)
                 .NotEmpty()
                 .WithMessage("Card number is required")
