@@ -25,11 +25,10 @@ public class PaymentsController : Controller
     }
 
     [HttpGet("{id:guid}")]
-    public async Task<ActionResult<PostPaymentResponse?>> GetPaymentAsync(Guid id) //TODO: Is this the right response?
+    public async Task<ActionResult<PostPaymentResponse?>> GetPaymentAsync(Guid id)
     {
         var payment = _paymentsRepository.Get(id);
-
-        return new OkObjectResult(payment);
+        return payment != null ? new OkObjectResult(payment) : new NotFoundResult();
     }
 
     [HttpPost]

@@ -33,25 +33,29 @@ public class PaymentsControllerTests
         var webApplicationFactory = new WebApplicationFactory<PaymentsController>();
         var client = webApplicationFactory.WithWebHostBuilder(builder =>
             builder.ConfigureServices(services => ((ServiceCollection)services)
-                .AddSingleton(paymentsRepository)))
+                .AddSingleton<IPaymentsRepository>(paymentsRepository)))
             .CreateClient();
 
         // Act
         var response = await client.GetAsync($"/api/Payments/{payment.Id}");
         var paymentResponse = await response.Content.ReadFromJsonAsync<PostPaymentResponse>();
-        
+
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.NotNull(paymentResponse);
     }
 
     [Fact]
-    public async Task Returns404IfPaymentNotFound() //TODO: Fix broken test
+    public async Task Returns404IfPaymentNotFound()
     {
         // Arrange
+        var paymentsRepository = new PaymentsRepository();
         var webApplicationFactory = new WebApplicationFactory<PaymentsController>();
-        var client = webApplicationFactory.CreateClient();
-        
+        var client = webApplicationFactory.WithWebHostBuilder(builder =>
+            builder.ConfigureServices(services => ((ServiceCollection)services)
+                .AddSingleton<IPaymentsRepository>(paymentsRepository)))
+            .CreateClient();
+
         // Act
         var response = await client.GetAsync($"/api/Payments/{Guid.NewGuid()}");
         
