@@ -67,7 +67,7 @@ namespace PaymentGateway.Api.Tests
             Assert.Equal(request.ExpiryMonth, response.ExpiryMonth);
             Assert.Equal(request.ExpiryYear, response.ExpiryYear);
             Assert.Equal(request.Amount, response.Amount);
-            Assert.Equal(int.Parse(request.CardNumber.Substring(request.CardNumber.Length - 4)), response.CardNumberLastFour);
+            Assert.Equal(int.Parse(request.CardNumber[^4..]), response.CardNumberLastFour);
             Assert.Equal(request.Currency, response.Currency);
         }
 
@@ -108,7 +108,7 @@ namespace PaymentGateway.Api.Tests
             Assert.Equal(request.ExpiryMonth, response.ExpiryMonth);
             Assert.Equal(request.ExpiryYear, response.ExpiryYear);
             Assert.Equal(request.Amount, response.Amount);
-            Assert.Equal(int.Parse(request.CardNumber.Substring(request.CardNumber.Length - 4)), response.CardNumberLastFour);
+            Assert.Equal(int.Parse(request.CardNumber[^4..]), response.CardNumberLastFour);
             Assert.Equal(request.Currency, response.Currency);
         }
 

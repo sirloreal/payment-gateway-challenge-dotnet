@@ -45,7 +45,7 @@ namespace PaymentGateway.Api.Services
                 ExpiryYear = request.ExpiryYear,
                 ExpiryMonth = request.ExpiryMonth,
                 Amount = request.Amount,
-                CardNumberLastFour = int.Parse(request.CardNumber.ToString().Substring(request.CardNumber.ToString().Length - 4)),
+                CardNumberLastFour = int.Parse(request.CardNumber[^4..]),
                 Currency = request.Currency,
                 Status = bankPaymentResponse!.Authorized ? PaymentStatus.Authorized : PaymentStatus.Declined
             };
