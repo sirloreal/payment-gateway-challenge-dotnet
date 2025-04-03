@@ -13,11 +13,13 @@ namespace PaymentGateway.Api.Controllers;
 public class PaymentsController : Controller
 {
     private readonly IValidator<PostPaymentRequest> _validator;
-    private readonly PaymentsRepository _paymentsRepository;
+    private readonly IPaymentsProcessor _paymentsProcessor;
+    private readonly IPaymentsRepository _paymentsRepository;
 
-    public PaymentsController(IValidator<PostPaymentRequest> validator, PaymentsRepository paymentsRepository)
+    public PaymentsController(IValidator<PostPaymentRequest> validator, IPaymentsProcessor paymentsProcessor, IPaymentsRepository paymentsRepository)
     {
         _validator = validator;
+        _paymentsProcessor = paymentsProcessor;
         _paymentsRepository = paymentsRepository;
     }
 
@@ -30,7 +32,7 @@ public class PaymentsController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> PostPaymentAsync([FromBody] PostPaymentRequest request)
+    public async Task<ActionResult<PostPaymentResponse?>> PostPaymentAsync([FromBody] PostPaymentRequest request)
     {
         var validationResult = await _validator.ValidateAsync(request);
         if(!validationResult.IsValid)
@@ -38,6 +40,8 @@ public class PaymentsController : Controller
             return BadRequest(validationResult.Errors);
         }
 
-        return Ok("Valid Request");
+        var response = await _paymentsProcessor.ProcessPaymentAsync(request);
+
+        return new OkObjectResult(response);
     }
 }

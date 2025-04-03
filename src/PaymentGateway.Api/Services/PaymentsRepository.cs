@@ -2,7 +2,13 @@
 
 namespace PaymentGateway.Api.Services;
 
-public class PaymentsRepository
+public interface IPaymentsRepository
+{
+    void Add(PostPaymentResponse payment);
+    PostPaymentResponse Get(Guid id);
+}
+
+public class PaymentsRepository : IPaymentsRepository
 {
     public List<PostPaymentResponse> Payments = new();
     

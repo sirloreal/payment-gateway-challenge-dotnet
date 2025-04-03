@@ -15,7 +15,12 @@ builder.Services.AddScoped<IValidator<PostPaymentRequest>, PostPaymentRequestVal
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<PaymentsRepository>();
+builder.Services.AddSingleton<IPaymentsRepository, PaymentsRepository>();
+builder.Services.AddScoped<IPaymentsProcessor, PaymentsProcessor>();
+builder.Services.AddHttpClient<IPaymentsProcessor, PaymentsProcessor>(client =>
+{
+    client.BaseAddress = new Uri("http://localhost:8080");
+});
 
 var app = builder.Build();
 
