@@ -8,6 +8,7 @@ using PaymentGateway.Api.Models;
 using PaymentGateway.Api.Models.Requests;
 using PaymentGateway.Api.Models.Responses;
 using PaymentGateway.Api.Services;
+using PaymentGateway.Api.Tests.Utilities;
 
 namespace PaymentGateway.Api.Tests
 {
@@ -45,7 +46,7 @@ namespace PaymentGateway.Api.Tests
 
             var mockResponse = new HttpResponseMessage
             {
-                StatusCode = System.Net.HttpStatusCode.OK,
+                StatusCode = HttpStatusCode.OK,
                 Content = JsonContent.Create(new
                 {
                     authorized = true,
@@ -169,25 +170,6 @@ namespace PaymentGateway.Api.Tests
                 .Returns(new HttpResponseMessage(HttpStatusCode.ServiceUnavailable));
             // Act & Assert
             await Assert.ThrowsAsync<PaymentGatewayException>(() => _paymentsProcessor.ProcessPaymentAsync(request));
-        }
-    }
-
-
-    public class MockHttpMessageHandler : HttpMessageHandler
-    {
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-        {
-            return Task.FromResult(MockSend(request, cancellationToken));
-        }
-
-        protected override HttpResponseMessage Send(HttpRequestMessage request, CancellationToken cancellationToken)
-        {
-            return MockSend(request, cancellationToken);
-        }
-
-        public virtual HttpResponseMessage MockSend(HttpRequestMessage request, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
         }
     }
 }
