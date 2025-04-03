@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using PaymentGateway.Api.Models.Requests;
+﻿using PaymentGateway.Api.Models.Requests;
 using PaymentGateway.Api.Validators;
 
 namespace PaymentGateway.Api.Tests
@@ -17,7 +11,7 @@ namespace PaymentGateway.Api.Tests
         {
             _validator = new PostPaymentRequestValidator();
         }
-            
+
         [Fact]
         public void Should_Validate_ValidRequest()
         {

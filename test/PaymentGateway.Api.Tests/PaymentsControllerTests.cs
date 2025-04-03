@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
+
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,7 +13,7 @@ namespace PaymentGateway.Api.Tests;
 public class PaymentsControllerTests
 {
     private readonly Random _random = new();
-    
+
     [Fact]
     public async Task RetrievesAPaymentSuccessfully()
     {
@@ -60,7 +61,7 @@ public class PaymentsControllerTests
 
         // Act
         var response = await client.GetAsync($"/api/Payments/{Guid.NewGuid()}");
-        
+
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }

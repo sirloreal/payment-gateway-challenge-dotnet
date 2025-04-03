@@ -1,11 +1,13 @@
-﻿using PaymentGateway.Api.Models.Requests;
-using PaymentGateway.Api.Models;
-using PaymentGateway.Api.Services;
-using NSubstitute;
-using PaymentGateway.Api.Models.Responses;
+﻿using System.Net;
 using System.Net.Http.Json;
-using System.Net;
+
+using NSubstitute;
+
 using PaymentGateway.Api.Exceptions;
+using PaymentGateway.Api.Models;
+using PaymentGateway.Api.Models.Requests;
+using PaymentGateway.Api.Models.Responses;
+using PaymentGateway.Api.Services;
 
 namespace PaymentGateway.Api.Tests
 {

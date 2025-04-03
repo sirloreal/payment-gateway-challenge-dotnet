@@ -38,7 +38,7 @@ public class PaymentsController : Controller
     public async Task<ActionResult<PaymentResponse?>> PostPaymentAsync([FromBody] PostPaymentRequest request)
     {
         var validationResult = await _validator.ValidateAsync(request);
-        if(!validationResult.IsValid)
+        if (!validationResult.IsValid)
         {
             var errorResponse = new ValidationErrorResponse
             {

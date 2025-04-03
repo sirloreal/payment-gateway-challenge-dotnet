@@ -11,7 +11,7 @@ public interface IPaymentsRepository
 public class PaymentsRepository : IPaymentsRepository
 {
     public List<PaymentResponse> Payments = new();
-    
+
     public void Add(PaymentResponse payment)
     {
         Payments.Add(payment);
