@@ -19,9 +19,6 @@ namespace PaymentGateway.Api.Tests
             var mockHttpMessageHandler = Substitute.ForPartsOf<MockHttpMessageHandler>();
             _httpClientMock = new HttpClient(mockHttpMessageHandler);
             _httpClientMock.BaseAddress = new Uri("http://fakehost:8080");
-            //_httpClientMock.PostAsJsonAsync(Arg.Any<string>(), Arg.Any<PostPaymentRequest>())
-            //    .Returns(Task.FromResult(
-
             var mockResponse = new HttpResponseMessage
             {
                 StatusCode = System.Net.HttpStatusCode.OK,
