@@ -7,14 +7,17 @@ namespace PaymentGateway.Api.Validators
     {
         public PostPaymentRequestValidator()
         {
+            // Stop validation on the first failure.  
+            this.ClassLevelCascadeMode = CascadeMode.Stop;
+
             RuleFor(x => x.CardNumberLastFour)
                 .NotEmpty()
                 .WithMessage("Card number is required")
                 .Must(cardNumber => cardNumber.ToString().Length == 4)
                 .WithMessage("Card number last four digits must be 4 characters long");
-                //TODO: This requires a change to the data type
-                //.Must(cardNumber => cardNumber.ToString().Length >= 14 && cardNumber.ToString().Length <= 19)
-                //.WithMessage("Card number must be between 14 and 19 digits long");
+            //TODO: This requires a change to the data type
+            //.Must(cardNumber => cardNumber.ToString().Length >= 14 && cardNumber.ToString().Length <= 19)
+            //.WithMessage("Card number must be between 14 and 19 digits long");
 
             RuleFor(x => x.ExpiryMonth)
                 .NotEmpty()
@@ -27,10 +30,6 @@ namespace PaymentGateway.Api.Validators
                 .WithMessage("Expiry year is required")
                 .GreaterThanOrEqualTo(DateTime.Now.Year)
                 .WithMessage("Expiry year must be greater than or equal to the current year");
-
-            RuleFor(x => x)
-                .Must(IsExpiryInTheFuture)
-                .WithMessage("Expiry must be in the future");
 
             RuleFor(x => x.Currency)
                 .NotEmpty()
@@ -49,11 +48,18 @@ namespace PaymentGateway.Api.Validators
                 .WithMessage("CVV is required")
                 .Must(cvv => cvv.ToString().Length == 3)
                 .WithMessage("CVV must be 3 characters");
+
+            RuleFor(x => x)
+                .Must(IsExpiryInTheFuture)
+                .WithMessage("Expiry must be in the future");
         }
 
         private bool IsExpiryInTheFuture(PostPaymentRequest request)
         {
-            return true;
+            // Assume the expiry date is the first day of the month after the given expiry month
+            var currentDate = DateTime.Now;
+            var expiryDate = new DateTime(request.ExpiryYear, request.ExpiryMonth, 1).AddMonths(1);
+            return currentDate < expiryDate;
         }
     }
 }
